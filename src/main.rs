@@ -22,6 +22,10 @@ impl MessageHandler<UserCreatedEventMessage> for UserCreatedHandler {
         println!("In Shelia's Computer [2406453606]. Message received: {:?}", message);
         Ok(())
     }
+
+    fn get_handler_action(&self) -> String {
+        "user_created_handler".to_string()
+    }
 }
 
 fn main() {
@@ -29,13 +33,11 @@ fn main() {
         "amqp://guest:guest@localhost:5672".to_owned()
     ).unwrap();
 
-    let _ = listener.listen(
-        "user_created".to_owned(), UserCreatedHandler {}, crosstown_bus::QueueProperties { 
-            auto_delete: false, 
-            durable: false, 
-            use_dead_letter: true 
-        }
-    );
+    _ = listener.listen("user_created".to_owned(), UserCreatedHandler{}, crosstown_bus::QueueProperties { 
+        auto_delete: false, 
+        durable: false, 
+        use_dead_letter: true 
+    });
 
     loop {
     }
