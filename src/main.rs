@@ -17,7 +17,7 @@ impl MessageHandler<UserCreatedEventMessage> for UserCreatedHandler {
         let ten_millis = time::Duration::from_millis(1000);
         let now = time::Instant::now();
 
-        thread::sleep(ten_millis);
+        //thread::sleep(ten_millis);
         
         println!("In Shelia's Computer [2406453606]. Message received: {:?}", message);
         Ok(())
@@ -30,7 +30,7 @@ impl MessageHandler<UserCreatedEventMessage> for UserCreatedHandler {
 
 fn main() {
     let listener = CrosstownBus::new_queue_listener(
-        "amqp://guest:guest@localhost:5672".to_owned()
+        "amqp://guest:guest@54.236.28.248:5672".to_owned()
     ).unwrap();
 
     _ = listener.listen("user_created".to_owned(), UserCreatedHandler{}, crosstown_bus::QueueProperties { 
